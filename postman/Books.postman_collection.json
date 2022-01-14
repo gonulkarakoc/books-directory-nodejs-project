@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "e87bd1ce-b868-4f7c-825f-71d4c1f7a581",
+		"name": "Books",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PUT - Update Books' Information",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Tutunamayanlar\",\n    \"author\": {\n    \"name\": \"Oğuz\",\n        \"surname\": \"Atay\"\n},\n    \"publishedDate\": 2020,\n    \"reviews\":{\n    \"comment\":\"'Ben iç dünyama dönüyorum.Orada hayal kırıklığına yer yok' demiş Oğuz Atay\",\n        \"vote\": 5\n}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/books/update/61e02ac86fe792a9fa87c0df",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"books",
+						"update",
+						"61e02ac86fe792a9fa87c0df"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST - Add New Book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Kayıp Tanrılar Ülkesi\",\n    \"author\": {\n    \"name\": \"Ahmet\",\n        \"surname\": \"Ümit\"\n},\n    \"publishedDate\": 2021,\n    \"reviews\":{\n    \"comment\":\"Dün öğle saatlerinde okumaya başladığım kitabı gece yarısı elimden bırakabildim!\",\n    \"vote\": 5\n}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/books/new",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"books",
+						"new"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Sort Books' Info by Published Date",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/books/sort",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"books",
+						"sort"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Books' Number of Author",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/books/group",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"books",
+						"group"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE - Delete the Book",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		}
+	]
+}
