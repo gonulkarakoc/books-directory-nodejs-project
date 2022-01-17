@@ -14,8 +14,8 @@
     "cookie-parser": "^1.4.6",
     "express": "^4.17.2",
     "mongoose": "^6.1.6",
+    "mongoose-type-email": "^1.1.2",
     "morgan": "^1.10.0",
-    "pug": "^3.0.2",
-    "slugify": "^1.6.5"
+    "pug": "^3.0.2"
   }
 }

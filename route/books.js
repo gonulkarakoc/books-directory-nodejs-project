@@ -67,5 +67,14 @@ router.put('/update/:id',(req,res,next) => {
         res.json(data);
     });
 });
+// get published books between defined years
+router.get('/between/:startYear/:endYear',(req,res,next) =>{
+    const {startYear, endYear} = req.params;
+    Books.find({publishedDate: {"$gte": parseInt(startYear),"$lte": parseInt(endYear)}}, (error, data) =>{
+        if(error)
+            res.json(error);
+        res.json(data);
+    });
+    });
 
 module.exports = router;

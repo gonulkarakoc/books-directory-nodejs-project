@@ -13,9 +13,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const IndexRouter = require('./route/index.js');
 const BooksRouter = require('./route/books.js');
+const UsersRouter = require('./route/users.js');
 
 app.use('/',IndexRouter);
 app.use('/books', BooksRouter);
+app.use('/users', UsersRouter);
 
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
