@@ -13,6 +13,7 @@
     "body-parser": "^1.19.1",
     "cookie-parser": "^1.4.6",
     "express": "^4.17.2",
+    "express-validator": "^6.14.0",
     "mongoose": "^6.1.6",
     "mongoose-type-email": "^1.1.2",
     "morgan": "^1.10.0",

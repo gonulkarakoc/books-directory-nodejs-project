@@ -1,11 +1,20 @@
 const express = require ('express');
 const router = express.Router();
 const Books = require('../model/Books');
+const {body, validationResult} = require("express-validator");
 
 // add new book's information to database
-router.post('/new',(req, res, next) =>{
- const book = new Books(req.body);
-    const process = book.save();
+router.post('/new',
+    body('title').notEmpty(),
+    body('author.name').isLength({ min: 3, max: 20}),
+    body('author.surname').isLength({ min: 3, max: 20}),
+    (req, res, next) =>{
+    const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+    const Book = new Books(req.body);
+    const process = Book.save();
         process.then((data) => {
             res.json(data);
         }).catch((error) => {
@@ -15,8 +24,8 @@ router.post('/new',(req, res, next) =>{
 });
 // send all books' information
 router.get('/all', (req, res, next) =>{
-    const allBooks = Books.find({});
-    allBooks.then((data) => {
+    const AllBooks = Books.find({});
+    AllBooks.then((data) => {
         res.json(data);
     }).catch((error) => {
         res.json(error)
@@ -25,21 +34,23 @@ router.get('/all', (req, res, next) =>{
 
 // delete the book information from database
 router.delete('/:id', (req, res, next) =>{
-    Books.findByIdAndDelete((req.params.id)).then((data)=>{
+    Books.findByIdAndDelete((req.params.id))
+        .then((data)=>{
         res.json(data);
-    }).catch((error)=> {
+        }).catch((error)=> {
         res.json(error);
-    })
+        })
 });
 
 //sort books' information by published date
 router.get('/sort', (req, res, next) =>{
-   Books.find({}, (error, data) => {
-       if (error)
-           res.json(error);
-       res.json(data)
-   }).sort({'publishedDate':1});
-
+    const AllBooks = Books.find({});
+    AllBooks.sort({'publishedAt':1})
+        .then((data) =>{
+        res.json(data)
+        }).catch ((error) => {
+        res.json(error);
+        });
 });
 // get the books' number of author
 router.get('/group', (req, res, next) =>{
@@ -58,23 +69,25 @@ router.get('/group', (req, res, next) =>{
 
 // update the books' information
 router.put('/update/:id',(req,res,next) => {
-    console.log(req.params.id);
-    Books.findById((req.params.id),(error, data) => {
-        if (error)
-            res.json(error);
-        data.set(req.body);
-        data.save();
-        res.json(data);
+    const UpdatedBook=Books.findById((req.params.id));
+    UpdatedBook.then((data) => {
+            data.set(req.body);
+            data.save();
+            res.json(data);
+    }).catch((error) => {
+        res.json(error);
     });
 });
+
 // get published books between defined years
 router.get('/between/:startYear/:endYear',(req,res,next) =>{
     const {startYear, endYear} = req.params;
-    Books.find({publishedDate: {"$gte": parseInt(startYear),"$lte": parseInt(endYear)}}, (error, data) =>{
-        if(error)
+    Books.find({publishedAt: {"$gte": parseInt(startYear),"$lte": parseInt(endYear)}})
+        .then((data) => {
+            res.json(data);
+        }).catch((error) => {
             res.json(error);
-        res.json(data);
-    });
-    });
+        });
+});
 
 module.exports = router;

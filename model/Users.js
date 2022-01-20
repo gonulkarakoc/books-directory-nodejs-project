@@ -2,29 +2,26 @@ const mongoose = require('mongoose');
 require('mongoose-type-email');
 const {Schema} = require("mongoose");
 const schema = mongoose.Schema;
+require('./Books');
 
 const UserSchema = new schema ({
     name: {
-        type: String,
-        maxLength: 20,
-        minLength: 3
+        type: String
     },
     surname: {
-        type: String,
-        maxLength: 20,
-        minLength: 3
+        type: String
     },
-
     email: {
         type: Schema.Types.Email,
         unique:true,
     },
-    createdDate: {
+    createdAt: {
         type:Date,
         default: Date.now,
     },
-    bookId: [{
+    books: [{
         type: Schema.Types.ObjectId,
+        ref: "Books"
     }]
 });
 

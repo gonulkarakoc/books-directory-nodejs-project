@@ -34,6 +34,7 @@ What you can do with this project?
 - **mongoose-type-email** (v1.1.2)
 - **morgan** (v1.10.0)
 - **pug** (v3.0.2)
+- **express-validator** (v6.14.0)
 
 #### Postman Document
 https://documenter.getpostman.com/view/19000513/UVXjJb9S

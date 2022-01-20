@@ -2,12 +2,20 @@ const express = require ('express');
 const router = express.Router();
 const Users = require('../model/Users');
 const mongoose = require('mongoose');
-const Books = require("../model/Books");
-
+const {body, validationResult} = require("express-validator");
 
 // add new user's information to database
-router.post('/new',(req, res, next) =>{
- const user = new Users(req.body);
+router.post('/new',
+    body('name').isLength({ min: 3, max: 20}),
+    body('surname').isLength({ min: 3, max: 20}),
+    (req, res, next) => {
+
+    const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+    const user = new Users(req.body);
     const process = user.save();
         process.then((data) => {
             res.json(data);
@@ -28,52 +36,21 @@ router.get('/all', (req, res) => {
 });
 
 // get user and user's books
-router.get('/:userId',(req, res) => {
-   Users.aggregate([
-       {
-         $match: {
-             '_id':mongoose.Types.ObjectId(req.params.userId)
-         }
-       },
-       {
-           $lookup: {
-               from: 'books',
-               localField: 'bookId',
-               foreignField: '_id',
-               as: 'books'
-           }
-       },{
-            $group: {
-                _id:{
-                    _id: '$_id',
-                    name:'$name',
-                    surname:'$surname'
-                },
-                books: {
-                    $push: '$books.title'
-                }
-            }
-       },
-       {
-           $unwind: {
-               path: '$books',
-               preserveNullAndEmptyArrays: true
-           }
-       }
-       ], (error, result) => {
-       if (error)
-           res.json(error);
-       res.json(result);
-    }
-   );
+router.get('/:userId', (req, res) => {
+    Users.findOne({_id: mongoose.Types.ObjectId(req.params.userId)})
+        .populate("books",{title:1})
+        .then((result) => {
+            res.json(result);
+        });
 });
 
 // update the users' information
-router.put('/update/:id',(req,res,next) => {
-    console.log(req.params.id);
+router.put('/update/:id', (req,res,next) => {
     Users.findById((req.params.id),(error, data) => {
-        if (error)
+        if (error) {
             res.json(error);
+            return;
+        };
         data.set(req.body);
         data.save();
         res.json(data);
