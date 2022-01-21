@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-require('mongoose-type-email');
-const {Schema} = require("mongoose");
-const schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 require('./Books');
+require('mongoose-type-email');
 
-const UserSchema = new schema ({
+const UserSchema = new Schema ({
     name: {
         type: String
     },

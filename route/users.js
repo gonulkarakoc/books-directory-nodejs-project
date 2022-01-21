@@ -1,8 +1,9 @@
 const express = require ('express');
-const router = express.Router();
 const Users = require('../model/Users');
 const mongoose = require('mongoose');
 const {body, validationResult} = require("express-validator");
+
+const router = express.Router();
 
 // add new user's information to database
 router.post('/new',
@@ -14,7 +15,6 @@ router.post('/new',
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
-
     const user = new Users(req.body);
     const process = user.save();
         process.then((data) => {
@@ -58,7 +58,7 @@ router.put('/update/:id', (req,res,next) => {
 });
 
 // delete the user information from database
-router.delete('/:id', (req, res, next) =>{
+router.delete('/delete/:id', (req, res, next) =>{
     Users.findByIdAndDelete((req.params.id)).then((data)=>{
         res.json(data);
     }).catch((error)=> {
