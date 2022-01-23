@@ -46,6 +46,13 @@ router.get('/:userId', (req, res) => {
 
 // update the users' information
 router.put('/update/:id', (req,res,next) => {
+    if(!mongoose.isValidObjectId(req.params.id)) {
+        res.json({
+            status: false,
+            message: "Updating is failed, ID is not valid"
+        })
+        return;
+    };
     Users.findById((req.params.id),(error, data) => {
         if (error) {
             res.json(error);
@@ -59,6 +66,13 @@ router.put('/update/:id', (req,res,next) => {
 
 // delete the user information from database
 router.delete('/delete/:id', (req, res, next) =>{
+    if(!mongoose.isValidObjectId(req.params.id)) {
+        res.json({
+            status: false,
+            message: "Deletion is failed, ID is not valid"
+        })
+        return;
+    };
     Users.findByIdAndDelete((req.params.id)).then((data)=>{
         res.json(data);
     }).catch((error)=> {

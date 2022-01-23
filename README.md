@@ -35,11 +35,12 @@ What you can do with this project?
 - **morgan** (v1.10.0)
 - **pug** (v3.0.2)
 - **express-validator** (v6.14.0)
-- **"bcryptjs** (v2.4.3)
+- **bcryptjs** (v2.4.3)
 - **jsonwebtoken** (v8.5.1)
 
 #### Postman Document
 Books -> https://documenter.getpostman.com/view/19000513/UVXjJb9S
+
 Users -> https://documenter.getpostman.com/view/19000513/UVXonEKa
 
 ### Install & Run

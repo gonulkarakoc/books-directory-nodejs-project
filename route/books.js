@@ -1,10 +1,12 @@
 const express = require ('express');
 const router = express.Router();
 const Books = require('../model/Books');
-const {body, validationResult} = require("express-validator");
+const mongoose = require("mongoose");
+const {body, validationResult} = require('express-validator');
+const verifyToken = require('../middleware/verify-token');
 
 // add new book's information to database
-router.post('/new',
+router.post('/new', verifyToken,
     body('title').notEmpty(),
     body('author.name').isLength({ min: 3, max: 20}),
     body('author.surname').isLength({ min: 3, max: 20}),
@@ -33,7 +35,14 @@ router.get('/all', (req, res, next) =>{
 });
 
 // delete the book information from database
-router.delete('/:id', (req, res, next) =>{
+router.delete('/delete/:id', verifyToken,(req, res, next) =>{
+    if(!mongoose.isValidObjectId(req.params.id)) {
+        res.json({
+            status: false,
+            message: "Deletion is failed, ID is not valid"
+        })
+        return;
+    };
     Books.findByIdAndDelete((req.params.id))
         .then((data)=>{
         res.json(data);
@@ -68,15 +77,22 @@ router.get('/group', (req, res, next) =>{
 });
 
 // update the books' information
-router.put('/update/:id',(req,res,next) => {
-    const UpdatedBook=Books.findById((req.params.id));
-    UpdatedBook.then((data) => {
+router.put('/update/:id', verifyToken,(req,res,next) => {
+    if(!mongoose.isValidObjectId(req.params.id)) {
+        res.json({
+            status: false,
+            message: "Updating is failed, ID is not valid"
+        })
+        return;
+    };
+        const UpdatedBook = Books.findById((req.params.id));
+        UpdatedBook.then((data) => {
             data.set(req.body);
             data.save();
             res.json(data);
-    }).catch((error) => {
-        res.json(error);
-    });
+        }).catch((error) => {
+            res.json(error);
+        })
 });
 
 // get published books between defined years
