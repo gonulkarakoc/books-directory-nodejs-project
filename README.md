@@ -52,4 +52,5 @@ nodemon app.js
 # If you want to be tested.
 npm test
 ```
-![](../../Screen Shot 2022-01-27 at 12.17.36.png)
+
+![](static/Screen Shot 2022-01-27 at 12.17.36.png)
