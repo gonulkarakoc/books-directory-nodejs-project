@@ -4,6 +4,18 @@ const Admin = require("../model/Admin");
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const multer  = require('multer');
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './data/uploads/');
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now();
+        cb(null, file.fieldname + '-' + uniqueSuffix);
+    },
+});
+
+const upload = multer({ storage: storage });
 const api_secret_key = require("../config");
 
 router.get('/',(req, res,next ) => {
@@ -21,7 +33,6 @@ router.post('/register',
         };
         const admin = new Admin(req.body);
         bcrypt.hash(admin.password, 10).then((hash) => {
-            console.log(hash);
             admin.password = hash;
             const process = admin.save();
             process.then((data) => {
@@ -63,4 +74,16 @@ router.post('/authenticate',(req, res) => {
         }
     });
 });
+router.post('/register/upload', upload.single('naylalabs'),(req, res) => {
+    try {
+        res.json({
+            status: true,
+            message: "Uploaded the file to" + req.file.destination
+        })
+        console.log()
+    } catch (err) {
+        res.sendStatus(400);
+    }
+})
+
 module.exports = router;
