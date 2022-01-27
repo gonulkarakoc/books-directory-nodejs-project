@@ -22,6 +22,5 @@ app.use('/books', BooksRouter);
 app.use('/users', verifyToken);
 app.use('/users', UsersRouter);
 
-app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
-});
+module.exports = app.listen(port);
+
