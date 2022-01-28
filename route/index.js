@@ -74,6 +74,7 @@ router.post('/authenticate',(req, res) => {
         }
     });
 });
+
 router.post('/register/upload', upload.single('naylalabs'),(req, res) => {
     try {
         res.json({
