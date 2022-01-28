@@ -52,8 +52,3 @@ nodemon app.js
 # If you want to be tested.
 npm test
 ```
-<<<<<<< HEAD
-=======
-
-![](static/Screen Shot 2022-01-27 at 12.17.36.png)
->>>>>>> 94f9cbe119dcf86567e1195f34b3a238213bcd41
